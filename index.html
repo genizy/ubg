@@ -44,26 +44,28 @@
         const apiURL = "https://api.github.com/repos/genizy/ubg/contents/g";
         const baseURL = "https://genizy.github.io/ubg/";
 
+        function formatTitle(fileName) {
+            const nameWithoutExtension = fileName.replace(".html", "");
+            const cleanName = nameWithoutExtension.replace(/[-_]/g, " ");
+            return cleanName.replace(/\b\w/g, char => char.toUpperCase());
+        }
+
         async function listGames() {
             try {
                 const response = await fetch(apiURL);
                 const files = await response.json();
-
                 container.innerHTML = "";
-
                 files.forEach(file => {
                     if (file.name.endsWith(".html")) {
                         const button = document.createElement("button");
-                        button.textContent = file.name.replace(".html", "");
+                        button.textContent = formatTitle(file.name);
                         button.onclick = () => window.open(baseURL + file.path, "_blank");
                         container.appendChild(button);
                     }
                 });
-
                 if (container.innerHTML === "") {
                     container.innerHTML = "No HTML files found.";
                 }
-
             } catch (error) {
                 container.innerHTML = `Error loading games: ${error}`;
             }
