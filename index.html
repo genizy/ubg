@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Game List</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+        }
+        #container {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+            gap: 10px;
+        }
+        button {
+            padding: 10px;
+            border: none;
+            background-color: #007bff;
+            color: white;
+            cursor: pointer;
+            border-radius: 5px;
+        }
+        button:hover {
+            background-color: #0056b3;
+        }
+    </style>
+</head>
+<body>
+    <h1>Game List</h1>
+    <div id="container">Loading...</div>
+
+    <script>
+        const container = document.getElementById('container');
+        const apiURL = "https://api.github.com/repos/genizy/ubg/contents/g";
+        const baseURL = "https://genizy.github.io/ubg/";
+
+        async function listGames() {
+            try {
+                const response = await fetch(apiURL);
+                const files = await response.json();
+
+                container.innerHTML = "";
+
+                files.forEach(file => {
+                    if (file.name.endsWith(".html")) {
+                        const button = document.createElement("button");
+                        button.textContent = file.name.replace(".html", "");
+                        button.onclick = () => window.open(baseURL + file.path, "_blank");
+                        container.appendChild(button);
+                    }
+                });
+
+                if (container.innerHTML === "") {
+                    container.innerHTML = "No HTML files found.";
+                }
+
+            } catch (error) {
+                container.innerHTML = `Error loading games: ${error}`;
+            }
+        }
+
+        listGames();
+    </script>
+</body>
+</html>
