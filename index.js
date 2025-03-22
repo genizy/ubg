@@ -1,8 +1,8 @@
 const container = document.getElementById('container');
 const gameViewer = document.getElementById('gameViewer');
 const gameFrame = document.getElementById('gameFrame');
-const apiURL = "https://cdn.jsdelivr.net/gh/genizy/ugs-files@latest/allGames.txt";
-const baseURL = "https://cdn.jsdelivr.net/gh/genizy/ugs-files@latest/";
+const apiURL = "https://cdn.jsdelivr.net/gh/genizy/ugs-files@main/allGames.txt";
+const baseURL = "https://cdn.jsdelivr.net/gh/genizy/ugs-files@main/";
 
 function formatTitle(fileName) {
     let nameWithoutExtension = fileName.replace(".html", "").replace("cl", "");
