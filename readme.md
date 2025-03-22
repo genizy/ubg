@@ -4,3 +4,4 @@ data:text/html;charset=utf-8;base64,PCFET0NUWVBFIGh0bWw+PGh0bWwgbGFuZz0iZW4iPjxo
 ```
 - [githack](https://rawcdn.githack.com/genizy/ubg/main/index.html)
 - [github pages](https://genizy.github.io/ubg/)
+- [google sites](https://sites.google.com/view/u--gs/home)
