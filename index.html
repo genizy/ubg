@@ -45,17 +45,8 @@
         const baseURL = "https://rawcdn.githack.com/genizy/ugs-files/main/";
         function formatTitle(fileName) {
             let nameWithoutExtension = fileName.replace(".html", "");
-            if (nameWithoutExtension.startsWith("cl")) {
-                nameWithoutExtension = nameWithoutExtension.replace("cl", "");
-            }
-            nameWithoutExtension = nameWithoutExtension.replaceAll("-", " ").replaceAll("_", "")
             const cleanName = nameWithoutExtension.replace(/[-_]/g, " ");
-            return cleanName.replace(/\b\w/g, char => char.toUpperCase())
-                .replace(/([a-z])([A-Z])/g, '$1 $2')
-                .replace(/(\d+)/g, ' $1')
-                .replace(/([a-z])([A-Z])/g, '$1 $2')
-                .replace(/the/i, 'the')
-                .replace(/\b\w/g, char => char.toUpperCase());
+            return cleanName.replace(/\b\w/g, char => char.toUpperCase());
         }
 
         async function listGames() {
