@@ -44,7 +44,7 @@
         const apiURL = "https://api.github.com/repos/genizy/ugs-files/contents";
         const baseURL = "https://rawcdn.githack.com/genizy/ugs-files/main/";
         function formatTitle(fileName) {
-            let nameWithoutExtension = fileName.replace(".html", "");
+            let nameWithoutExtension = fileName.replace(".html", "").replace("cl", "");
             const cleanName = nameWithoutExtension.replace(/[-_]/g, " ");
             return cleanName.replace(/\b\w/g, char => char.toUpperCase());
         }
