@@ -33,16 +33,49 @@
         button:hover {
             background-color: #0056b3;
         }
+        #gameViewer {
+            display: none;
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            width: 80%;
+            height: 80%;
+            background: white;
+            border: 2px solid #000;
+            z-index: 1000;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+        }
+        #gameViewer iframe {
+            width: 100%;
+            height: 90%;
+            border: none;
+        }
+        #controls {
+            text-align: right;
+            padding: 5px;
+            background: #ddd;
+        }
     </style>
 </head>
 <body>
     <h1>Game List</h1>
     <div id="container">Loading...</div>
+    <div id="gameViewer">
+        <div id="controls">
+            <button onclick="closeGame()">Close</button>
+            <button onclick="fullscreenGame()">Fullscreen</button>
+        </div>
+        <iframe id="gameFrame"></iframe>
+    </div>
 
     <script>
         const container = document.getElementById('container');
+        const gameViewer = document.getElementById('gameViewer');
+        const gameFrame = document.getElementById('gameFrame');
         const apiURL = "https://api.github.com/repos/genizy/ugs-files/contents";
-        const baseURL = "https://rawcdn.githack.com/genizy/ugs-files/main/";
+        const baseURL = "https://cdn.jsdelivr.net/gh/genizy/ugs-files@main/";
+
         function formatTitle(fileName) {
             let nameWithoutExtension = fileName.replace(".html", "").replace("cl", "");
             const cleanName = nameWithoutExtension.replace(/[-_]/g, " ");
@@ -57,8 +90,8 @@
                 files.forEach(file => {
                     if (file.name.endsWith(".html")) {
                         const button = document.createElement("button");
-                        button.textContent = formatTitle(file.name.replace(".cl"));
-                        button.onclick = () => window.open(baseURL + file.path, "_blank");
+                        button.textContent = formatTitle(file.name);
+                        button.onclick = () => openGame(baseURL + file.path);
                         container.appendChild(button);
                     }
                 });
@@ -67,6 +100,35 @@
                 }
             } catch (error) {
                 container.innerHTML = `Error loading games: ${error}`;
+            }
+        }
+
+        function openGame(url) {
+            fetch(url)
+                .then(response => response.text())
+                .then(html => {
+                    gameFrame.contentDocument.open();
+                    gameFrame.contentDocument.write(html);
+                    gameFrame.contentDocument.close();
+                    gameViewer.style.display = "block";
+                })
+                .catch(error => alert("Failed to load game: " + error));
+        }
+
+        function closeGame() {
+            gameViewer.style.display = "none";
+            gameFrame.src = "about:blank";
+        }
+
+        function fullscreenGame() {
+            if (gameFrame.requestFullscreen) {
+                gameFrame.requestFullscreen();
+            } else if (gameFrame.mozRequestFullScreen) {
+                gameFrame.mozRequestFullScreen();
+            } else if (gameFrame.webkitRequestFullscreen) {
+                gameFrame.webkitRequestFullscreen();
+            } else if (gameFrame.msRequestFullscreen) {
+                gameFrame.msRequestFullscreen();
             }
         }
 
