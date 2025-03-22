@@ -13,7 +13,7 @@ async function listGames() {
     try {
         const response = await fetch(apiURL);
         const resText = await response.text();
-        const files = resText.split("\n", "");
+        const files = resText.split("\n");
         container.innerHTML = "";
         files.forEach(file => {
             if (file.endsWith(".html")) {
